@@ -1,16 +1,24 @@
-# React + Vite
+# HOMY Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Public website and lightweight backend for `homyforme.com`.
 
-Currently, two official plugins are available:
+## Launch Settings
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Set these in Railway before public launch:
 
-## React Compiler
+```text
+VITE_APP_STORE_URL=https://apps.apple.com/de/app/homy-rent-and-swap/id6766799894?l=en-GB
+VITE_LEGAL_SERVICE_ADDRESS=Your complete serviceable postal address
+VITE_LEGAL_SERVICE_ADDRESS_DE=Ihre vollständige ladungsfähige Anschrift
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+If `VITE_APP_STORE_URL` is empty, the App Store button falls back to HOMY's public App Store listing.
 
-## Expanding the ESLint configuration
+## Local Commands
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run lint
+npm run build
+npm run dev
+```
