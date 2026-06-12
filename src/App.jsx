@@ -84,13 +84,6 @@ function App() {
     setGdprError(false);
   };
 
-  const openAndroidWaitlist = () => {
-    switchTab('android');
-    window.setTimeout(() => {
-      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 50);
-  };
-
   const successKey = activeTab === 'ideas'
     ? 'success_comment'
     : 'success_android';
@@ -144,7 +137,7 @@ function App() {
             </div>
           </a>
 
-          <button className="store-btn store-btn-waitlist" type="button" onClick={openAndroidWaitlist}>
+          <button className="store-btn store-btn-waitlist" type="button" disabled aria-disabled="true">
             <svg className="store-btn-icon google-play-icon" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true">
               <path d="M52.7 28.4c-13.8 7.5-22 21.9-22 38.5v378.2c0 16.6 8.2 31 22 38.5l212.2-227.6L52.7 28.4z"/>
               <path d="M264.9 256 52.7 28.4c6.8-3.7 14.9-4.3 23-1.5l269.2 148.7L264.9 256z"/>

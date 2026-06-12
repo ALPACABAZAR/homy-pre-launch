@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App.jsx'
 import Privacy from './Privacy.jsx'
+import AccountDeletion from './AccountDeletion.jsx'
 import { Impressum, Terms } from './LegalDocument.jsx'
 import './index.css'
 import './i18n.js'
@@ -19,6 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/datenschutz" element={<Privacy />} />
         <Route path="/de/datenschutz" element={<Privacy />} />
+        <Route path="/account-deletion" element={<AccountDeletion />} />
+        <Route path="/konto-loeschen" element={<AccountDeletion />} />
+        <Route path="/de/konto-loeschen" element={<AccountDeletion />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/agb" element={<Terms />} />
         <Route path="/de/agb" element={<Terms />} />

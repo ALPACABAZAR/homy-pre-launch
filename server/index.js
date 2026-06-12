@@ -1423,6 +1423,41 @@ app.get(['/ios', '/iphone', '/app'], (_req, res) => {
     res.redirect(302, APP_STORE_REDIRECT_URL);
 });
 
+// Android App Links verification (express.static ignores dot-directories,
+// so this needs an explicit route). The release entry is the Play upload
+// key; the two debug entries let devDebug/prodDebug builds verify
+// https://homyforme.com/auth/email/* deep links during QA.
+const ANDROID_RELEASE_CERT_SHA256 = 'CA:F7:12:9F:17:AC:63:DE:04:8B:A9:CB:78:34:BB:AA:3A:8D:1E:80:DC:24:18:10:D5:54:DF:E3:AB:49:EA:13';
+const ANDROID_DEBUG_CERT_SHA256 = 'C1:18:22:5D:E6:D1:34:B3:C9:0D:62:42:A2:7D:2C:4D:32:DE:F7:FE:14:77:07:8F:7C:8C:32:19:5E:F9:D3:A4';
+app.get('/.well-known/assetlinks.json', (_req, res) => {
+    res.json([
+        {
+            relation: ['delegate_permission/common.handle_all_urls'],
+            target: {
+                namespace: 'android_app',
+                package_name: 'com.cirett.homy',
+                sha256_cert_fingerprints: [ANDROID_RELEASE_CERT_SHA256]
+            }
+        },
+        {
+            relation: ['delegate_permission/common.handle_all_urls'],
+            target: {
+                namespace: 'android_app',
+                package_name: 'com.cirett.homy.dev.debug',
+                sha256_cert_fingerprints: [ANDROID_DEBUG_CERT_SHA256]
+            }
+        },
+        {
+            relation: ['delegate_permission/common.handle_all_urls'],
+            target: {
+                namespace: 'android_app',
+                package_name: 'com.cirett.homy.debug',
+                sha256_cert_fingerprints: [ANDROID_DEBUG_CERT_SHA256]
+            }
+        }
+    ]);
+});
+
 // Serve static frontend
 app.use(express.static(path.join(__dirname, '../dist')));
 
