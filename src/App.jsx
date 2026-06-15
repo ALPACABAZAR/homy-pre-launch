@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './index.css';
 
@@ -68,6 +69,15 @@ function App() {
           ? '/api/comment'
           : '/api/android-waitlist';
       await axios.post(endpoint, data);
+      
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'engagement',
+          event_label: activeTab === 'ideas' ? 'feedback_submission' : 'waitlist_registration',
+          value: 1.0
+        });
+      }
+
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 6000);
     } catch (err) {
@@ -226,6 +236,7 @@ function App() {
       </div>
 
       <nav className="legal-footer" aria-label="Legal links">
+        <Link to="/blog">{i18n.language === 'de' ? 'Blog' : 'Blog'}</Link>
         <a href="/privacy">{i18n.language === 'de' ? 'Datenschutz' : 'Privacy'}</a>
         <a href="/terms">{i18n.language === 'de' ? 'AGB' : 'Terms'}</a>
         <a href="/impressum">Impressum</a>

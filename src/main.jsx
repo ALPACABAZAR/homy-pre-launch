@@ -8,6 +8,8 @@ import App from './App.jsx'
 import Privacy from './Privacy.jsx'
 import AccountDeletion from './AccountDeletion.jsx'
 import { Impressum, Terms } from './LegalDocument.jsx'
+import Blog from './Blog.jsx'
+import BlogPost from './BlogPost.jsx'
 import './index.css'
 import './i18n.js'
 
@@ -28,6 +30,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/de/agb" element={<Terms />} />
         <Route path="/impressum" element={<Impressum />} />
         <Route path="/de/impressum" element={<Impressum />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

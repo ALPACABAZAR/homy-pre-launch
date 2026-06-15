@@ -14,6 +14,7 @@ import crypto from 'crypto';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { blogPosts } from '../src/blogData.js';
 import axios from 'axios';
 import nodemailer from 'nodemailer';
 import { OAuth2Client } from 'google-auth-library';
@@ -1493,6 +1494,38 @@ app.get(['/de', '/de/'], async (_req, res, next) => {
         const html = await getGermanHtml();
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.send(html);
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.get('/blog/:slug', async (req, res, next) => {
+    try {
+        const { slug } = req.params;
+        const post = blogPosts.find(p => p.slug === slug);
+        if (!post) {
+            return res.sendFile(indexHtmlPath);
+        }
+
+        const html = await fs.readFile(indexHtmlPath, 'utf8');
+        const title = `${post.title} | HOMY Blog`;
+        const desc = post.metaDescription;
+        const canonical = `https://homyforme.com/blog/${slug}`;
+
+        const dynamicHtml = html
+            .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
+            .replace(/<meta name="title" content="[^"]*" \/>/, `<meta name="title" content="${title}" />`)
+            .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${desc}" />`)
+            .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${canonical}" />`)
+            .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${canonical}" />`)
+            .replace(/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${title}" />`)
+            .replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${desc}" />`)
+            .replace(/<meta name="twitter:url" content="[^"]*" \/>/, `<meta name="twitter:url" content="${canonical}" />`)
+            .replace(/<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${title}" />`)
+            .replace(/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${desc}" />`);
+
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.send(dynamicHtml);
     } catch (err) {
         next(err);
     }
